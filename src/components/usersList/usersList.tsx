@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Users from "../users/users";
 
 const UsersList = () => {
@@ -21,7 +22,9 @@ const UsersList = () => {
             <span style={{ fontWeight: "bold" }}>Role</span>
             <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
                 {users.map((user) => (
-                    <Users key={user.id} id={user.id} name={user.name} status={user.status} role={user.role} />
+                    <Link key={user.id} to={`/user/${user.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                        <Users id={user.id} name={user.name} status={user.status} role={user.role} />
+                    </Link>
                 ))}
             </ul>
         </div>
