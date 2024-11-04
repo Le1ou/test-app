@@ -1,25 +1,32 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
+import { UserApi } from "../../service/api";
+import { User } from "../users/users";
+import { UserUpdate } from "../../service/api";
 
-const UserSettings = () => {
-    const { id } = useParams();
+const UserSettings: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedUser, setEditedUser] = useState({ name: "", status: "", role: "" });
+    const [editedUser, setEditedUser] = useState<UserUpdate>({
+        name: "",
+        status: "inactive",
+        role: "guest",
+    });
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${id}`);
-                if (!response.ok) throw new Error(`User with ID ${id} not found`);
-                const data = await response.json();
-                setUser(data);
-                setEditedUser({
-                    name: data.name,
-                    status: data.status,
-                    role: data.role,
-                });
+                if (id) {
+                    const data = await UserApi.getUser(id);
+                    setUser(data);
+                    setEditedUser({
+                        name: data.name,
+                        status: data.status,
+                        role: data.role,
+                    });
+                }
             } catch (error) {
                 console.error("Fetch user error:", error);
             }
@@ -32,23 +39,14 @@ const UserSettings = () => {
 
     const handleSave = async () => {
         try {
-            console.log("Sending update for User ID:", id);
-            const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(editedUser),
-            });
-
-            if (!response.ok) throw new Error('Failed to update user');
-
-            const updatedUser = await response.json();
-            setUser(updatedUser);
-            setIsEditing(false);
-            navigate("/");
+            if (id) {
+                const updatedUser = await UserApi.updateUser(id, editedUser);
+                setUser(updatedUser);
+                setIsEditing(false);
+                navigate("/");
+            }
         } catch (error) {
-            console.error('Error updating user:', error);
+            console.error("Error updating user:", error);
         }
     };
 
@@ -63,7 +61,7 @@ const UserSettings = () => {
         }
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setEditedUser((prev) => ({
             ...prev,
@@ -86,6 +84,10 @@ const UserSettings = () => {
                     value={editedUser.name}
                     onChange={handleChange}
                     readOnly={!isEditing}
+                    style={{
+                        backgroundColor: isEditing ? "white" : "lightgray",
+                        cursor: isEditing ? "text" : "not-allowed"
+                    }}
                 />
             </div>
             <div>
@@ -94,7 +96,7 @@ const UserSettings = () => {
                     name="status"
                     value={editedUser.status}
                     onChange={handleChange}
-                    readOnly={!isEditing}
+                    disabled={!isEditing}
                 >
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -106,7 +108,7 @@ const UserSettings = () => {
                     name="role"
                     value={editedUser.role}
                     onChange={handleChange}
-                    readOnly={!isEditing}
+                    disabled={!isEditing}
                 >
                     <option value="admin">Admin</option>
                     <option value="user">User</option>

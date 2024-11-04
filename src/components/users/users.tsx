@@ -1,13 +1,13 @@
 import "./users.css"
 
-interface UserProps {
+export type User = {
     id: string;
     name: string;
-    status: 'active' | 'inective';
+    status: 'active' | 'inactive';
     role: 'admin' | 'user' | 'guest';
 }
 
-const Users: React.FC<UserProps> = ({ name, status, role }) => {
+const Users: React.FC<User> = ({ name, status, role }) => {
 
     return (
         <li className="container">
