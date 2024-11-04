@@ -1,0 +1,11 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 308px);
+    margin-top: 10px;
+}
+
+.user {
+    text-decoration: underline;
+    color: #755D9A;
+    /* cursor: pointer; */
+}
