@@ -13,8 +13,8 @@ const generateUsers = (num) => {
         users.push({
             id: faker.datatype.uuid(),
             name: faker.name.findName(),
-            status: faker.random.arrayElement(['active', 'inactive']),
-            role: faker.random.arrayElement(['admin', 'user', 'guest']),
+            status: faker.random.arrayElement(['Active', 'Inactive']),
+            role: faker.random.arrayElement(['Admin', 'User', 'Guest']),
         });
     }
     return users;
@@ -32,7 +32,6 @@ app.get('/api/users/:id', (req, res) => {
     if (user) {
         res.json(user);
     } else {
-        console.log("User not found with ID:", id);
         res.status(404).json({ message: 'User not found' });
     }
 });
@@ -40,18 +39,14 @@ app.get('/api/users/:id', (req, res) => {
 app.put('/api/users/:id', (req, res) => {
     const { id } = req.params;
     const updatedUser = req.body;
-    console.log("Updating user with ID:", id);
-    console.log("Updated user data:", updatedUser);
 
     const userIndex = users.findIndex(u => u.id === id);
 
     if (userIndex === -1) {
-        console.log("User not found with ID:", id);
         return res.status(404).json({ message: 'User not found' });
     }
 
     users[userIndex] = { ...users[userIndex], ...updatedUser };
-    console.log("Updated user:", users[userIndex]);
     res.json(users[userIndex]);
 });
 

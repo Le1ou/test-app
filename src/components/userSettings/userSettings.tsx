@@ -43,7 +43,6 @@ const UserSettings: React.FC = () => {
                 const updatedUser = await UserApi.updateUser(id, editedUser);
                 setUser(updatedUser);
                 setIsEditing(false);
-                navigate("/");
             }
         } catch (error) {
             console.error("Error updating user:", error);
@@ -91,16 +90,28 @@ const UserSettings: React.FC = () => {
                 />
             </div>
             <div>
-                <label>Status:</label>
-                <select
-                    name="status"
-                    value={editedUser.status}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                >
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
+            <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="active"
+                            checked={editedUser.status === "active"}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                        Active
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="status"
+                            value="inactive"
+                            checked={editedUser.status === "inactive"}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                        Inactive
+                    </label>
             </div>
             <div>
                 <label>Role:</label>
