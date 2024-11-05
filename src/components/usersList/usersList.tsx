@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserApi } from "../../service/api";
 import Users, { User } from "../users/users";
-import "./userList.css"
+import "./userList.css";
 
 interface UsersListProps {
     searchText: string;
@@ -39,15 +39,21 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
 
     return (
         <div className="container">
-            <span style={{ fontWeight: "bold" }}>Name</span>
-            <span style={{ fontWeight: "bold" }}>Status</span>
-            <span style={{ fontWeight: "bold" }}>Role</span>
+            <span className="header">Name</span>
+            <span className="header">Status</span>
+            <span className="header">Role</span>
             <ul className="user-list">
-                {filteredUsers.map((user) => (
-                    <Link key={user.id} to={`/user/${user.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                        <Users id={user.id} name={user.name} status={user.status} role={user.role} />
-                    </Link>
-                ))}
+                {filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
+                        <Link key={user.id} to={`/user/${user.id}`} className="user-link">
+                            <Users id={user.id} name={user.name} status={user.status} role={user.role} />
+                        </Link>
+                    ))
+                ) : (
+                    <li className="no-user-message">
+                        Пользователь не найден
+                    </li>
+                )}
             </ul>
         </div>
     );

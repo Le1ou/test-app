@@ -9,22 +9,40 @@
 }
 
 .user-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .user-list li {
-    display: grid;
-    grid-template-columns: repeat(3, 308px);
-    padding-top: 20px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .user-list li:last-child {
-    border-bottom: none;
-  }
-  
-  .user-list li:hover {
-    background-color: #f0f0f0;
-  }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-list li {
+  display: grid;
+  grid-template-columns: repeat(3, 308px);
+  padding-top: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-list li:last-child {
+  border-bottom: none;
+}
+
+.user-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.header {
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.user-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.no-user-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+  grid-column: span 3;
+}
