@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserApi } from '../../service/api';
 import Users, { User } from '../users/users';
+import OnSpinner from '../spinner/spinner';
 import './userList.css';
 
 interface UsersListProps {
@@ -11,6 +12,7 @@ interface UsersListProps {
 const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -20,6 +22,8 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
         setFilteredUsers(data);
       } catch (error) {
         console.error('Fetch users error:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,6 +38,10 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
       setFilteredUsers(users);
     }
   }, [searchText, users]);
+
+  if (loading) {
+    return <OnSpinner />;
+  }
 
   return (
     <div className="container">

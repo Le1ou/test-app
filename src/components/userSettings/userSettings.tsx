@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { UserApi } from '../../service/api';
 import { User } from '../users/users';
 import { UserUpdate } from '../../service/api';
@@ -10,6 +10,7 @@ const UserSettings: React.FC = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const handleCancelRef = useRef<() => void>();
   const [editedUser, setEditedUser] = useState<UserUpdate>({
     name: '',
     status: 'Inactive',
@@ -36,9 +37,37 @@ const UserSettings: React.FC = () => {
     fetchUser();
   }, [id]);
 
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isEditing) {
+          if (handleCancelRef.current) {
+            handleCancelRef.current();
+          }
+        } else {
+          navigate(-1);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleEsc);
+
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isEditing, navigate]);
+
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = async () => {
+    if (!editedUser.name.trim()) {
+      alert('Name cannot be empty');
+      return;
+    }
+
+    if (!isNaN(Number(editedUser.name))) {
+      alert('Name cannot be number');
+      return;
+    }
+
     try {
       if (id) {
         const updatedUser = await UserApi.updateUser(id, editedUser);
@@ -60,6 +89,8 @@ const UserSettings: React.FC = () => {
       });
     }
   };
+
+  handleCancelRef.current = handleCancel;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
