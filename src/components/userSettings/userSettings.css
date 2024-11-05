@@ -31,13 +31,13 @@
   gap: 10px;
 }
 
-.user-settings input[type="radio"] {
+.user-settings input[type='radio'] {
   transform: scale(1.5);
   cursor: pointer;
   margin-right: 8px;
 }
 
-.user-settings input[type="text"],
+.user-settings input[type='text'],
 .user-settings select {
   width: 220px;
   text-align: center;
@@ -54,7 +54,7 @@
 
 .user-settings input[readonly],
 .user-settings select[disabled],
-.user-settings input[type="radio"]:disabled + label {
+.user-settings input[type='radio']:disabled + label {
   background-color: #d3d3d3;
   color: #7a7a7a;
   cursor: not-allowed;
