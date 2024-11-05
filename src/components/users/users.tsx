@@ -3,14 +3,14 @@ import "./users.css"
 export type User = {
     id: string;
     name: string;
-    status: 'active' | 'inactive';
-    role: 'admin' | 'user' | 'guest';
+    status: 'Active' | 'Inactive';
+    role: 'Admin' | 'User' | 'Guest';
 }
 
 const Users: React.FC<User> = ({ name, status, role }) => {
 
     return (
-        <li className="container">
+        <li>
             <div className="user">
                 {name}
             </div>

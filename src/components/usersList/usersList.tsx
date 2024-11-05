@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserApi } from "../../service/api";
 import Users, { User } from "../users/users";
+import "./userList.css"
 
 interface UsersListProps {
-    searchText: string; // Добавляем свойство для текста поиска
+    searchText: string;
 }
 
 const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
@@ -16,7 +17,7 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
             try {
                 const data = await UserApi.getUsers();
                 setUsers(data);
-                setFilteredUsers(data); // Изначально показываем всех пользователей
+                setFilteredUsers(data);
             } catch (error) {
                 console.error("Fetch users error:", error);
             }
@@ -25,7 +26,6 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
         fetchUsers();
     }, []);
 
-    // Фильтруем пользователей по тексту поиска
     useEffect(() => {
         if (searchText) {
             const filtered = users.filter(user =>
@@ -33,16 +33,16 @@ const UsersList: React.FC<UsersListProps> = ({ searchText }) => {
             );
             setFilteredUsers(filtered);
         } else {
-            setFilteredUsers(users); // Если нет текста поиска, показываем всех
+            setFilteredUsers(users);
         }
     }, [searchText, users]);
 
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 308px)" }}>
+        <div className="container">
             <span style={{ fontWeight: "bold" }}>Name</span>
             <span style={{ fontWeight: "bold" }}>Status</span>
             <span style={{ fontWeight: "bold" }}>Role</span>
-            <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
+            <ul className="user-list">
                 {filteredUsers.map((user) => (
                     <Link key={user.id} to={`/user/${user.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                         <Users id={user.id} name={user.name} status={user.status} role={user.role} />

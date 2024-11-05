@@ -1,3 +1,5 @@
+import "./input.css";
+
 interface InputProps {
     onSearch: (searchText: string) => void;
 }
@@ -9,6 +11,7 @@ const Input: React.FC<InputProps> = ({ onSearch }) => {
 
     return (
         <input
+            className="input-search"
             placeholder="Search..."
             onChange={handleChange}
         />

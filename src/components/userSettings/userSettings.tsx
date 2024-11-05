@@ -3,6 +3,7 @@ import { useEffect, useState, ChangeEvent } from "react";
 import { UserApi } from "../../service/api";
 import { User } from "../users/users";
 import { UserUpdate } from "../../service/api";
+import "./userSettings.css";
 
 const UserSettings: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -11,8 +12,8 @@ const UserSettings: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedUser, setEditedUser] = useState<UserUpdate>({
         name: "",
-        status: "inactive",
-        role: "guest",
+        status: "Inactive",
+        role: "Guest",
     });
 
     useEffect(() => {
@@ -73,70 +74,66 @@ const UserSettings: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className="user-settings">
             <h2>User Settings</h2>
-            <div>
-                <label>Name:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={editedUser.name}
-                    onChange={handleChange}
-                    readOnly={!isEditing}
-                    style={{
-                        backgroundColor: isEditing ? "white" : "lightgray",
-                        cursor: isEditing ? "text" : "not-allowed"
-                    }}
-                />
+            <label>Name:</label>
+            <input
+                type="text"
+                name="name"
+                value={editedUser.name}
+                onChange={handleChange}
+                readOnly={!isEditing}
+                className={isEditing ? "edit-mode" : ""}
+            />
+            <label>Status:</label>
+            <div className="user-radios">
+                <label>
+                    <input
+                        type="radio"
+                        name="status"
+                        value="Active"
+                        checked={editedUser.status === "Active"}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    />
+                    Active
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="status"
+                        value="Inactive"
+                        checked={editedUser.status === "Inactive"}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    />
+                    Inactive
+                </label>
             </div>
-            <div>
-            <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="active"
-                            checked={editedUser.status === "active"}
-                            onChange={handleChange}
-                            disabled={!isEditing}
-                        />
-                        Active
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            name="status"
-                            value="inactive"
-                            checked={editedUser.status === "inactive"}
-                            onChange={handleChange}
-                            disabled={!isEditing}
-                        />
-                        Inactive
-                    </label>
+            <label>Role:</label>
+            <select
+                name="role"
+                value={editedUser.role}
+                onChange={handleChange}
+                disabled={!isEditing}
+            >
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+                <option value="Guest">Guest</option>
+            </select>
+            <div className="buttons-container">
+                {isEditing ? (
+                    <>
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={handleCancel}>Cancel</button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={handleEdit}>Edit</button>
+                        <button onClick={() => navigate(-1)}>Cancel</button>
+                    </>
+                )}
             </div>
-            <div>
-                <label>Role:</label>
-                <select
-                    name="role"
-                    value={editedUser.role}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                >
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                    <option value="guest">Guest</option>
-                </select>
-            </div>
-            {isEditing ? (
-                <>
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
-                </>
-            ) : (
-                <>
-                    <button onClick={handleEdit}>Edit</button>
-                    <button onClick={() => navigate(-1)}>Cancel</button>
-                </>
-            )}
         </div>
     );
 };

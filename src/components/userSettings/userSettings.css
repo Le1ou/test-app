@@ -1,0 +1,90 @@
+.user-settings {
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  margin: 30px 140px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+.user-settings h2 {
+  position: relative;
+  transform: translateX(200px);
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+  grid-column: span 2;
+  place-self: center;
+}
+
+.user-settings label {
+  font-weight: bold;
+  color: #555;
+  align-self: center;
+}
+
+.user-settings .user-radios {
+  width: 100px;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+}
+
+.user-settings input[type="radio"] {
+  transform: scale(1.5);
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.user-settings input[type="text"],
+.user-settings select {
+  width: 220px;
+  text-align: center;
+  padding: 8px;
+  margin-top: 5px;
+  border: solid black 2px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.user-settings select {
+  text-align: left;
+}
+
+.user-settings input[readonly],
+.user-settings select[disabled],
+.user-settings input[type="radio"]:disabled + label {
+  background-color: #d3d3d3;
+  color: #7a7a7a;
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+}
+
+.user-settings select:disabled {
+  color: #7a7a7a;
+  background-color: #d3d3d3;
+}
+
+.user-settings button {
+  position: relative;
+  transform: translate(300px, 200px);
+  padding: 8px 16px;
+  margin-right: 10px;
+  border: solid black 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.user-settings button:hover {
+  background-color: black;
+  color: white;
+}
+
+.user-settings .buttons-container {
+  margin-top: 20px;
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+}

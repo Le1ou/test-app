@@ -20,10 +20,10 @@ const App = () => {
             <Routes>
                 <Route path="/" 
                        element={
-                        <>
+                        <div style={{ padding: "30px 140px" }}>
                           <Input onSearch={debouncedSearch} />
                           <UsersList searchText={searchText} />
-                        </>}
+                        </div>}
                 />
                 <Route path="/user/:id"
                        element={<UserSettings />} />
